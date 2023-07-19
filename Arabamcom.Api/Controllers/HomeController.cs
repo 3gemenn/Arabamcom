@@ -15,9 +15,14 @@ namespace Arabamcom.Api.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<IActionResult> All(int categoryId, decimal price, string gear, string fuel, int page, PriceEnum priceShorting, YearEnum yearShorting, KmEnum kmShorting)
+        public async Task<IActionResult> All(int categoryId, decimal priceMin, decimal priceMax, GearEnum gearFiltering, FuelEnum fuelFiltering, AllSorting allSorting)
         {
-            return Json(await _service.All(categoryId,price,gear,fuel,page,priceShorting,yearShorting,kmShorting));
+            return Json(await _service.All(categoryId, priceMin, priceMax, gearFiltering, fuelFiltering, allSorting));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Json(await _service.Get(id));
         }
     }
 }

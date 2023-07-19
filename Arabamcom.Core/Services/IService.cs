@@ -10,7 +10,7 @@ namespace Arabamcom.Core.Services
 {
     public interface IService
     {
-        Task<AdvertAllDto> All(int categoryId, decimal price, string gear, string fuel, int page, PriceEnum priceShorting, YearEnum yearShorting, KmEnum kmShorting);
+        Task<List<AdvertAllDto>> All(int categoryId, decimal priceMin, decimal priceMax, GearEnum gearFiltering, FuelEnum fuelFiltering, AllSorting allSorting);
         Task<AdvertGetDto> Get(int id);
     }
 }

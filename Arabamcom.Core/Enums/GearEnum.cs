@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Arabamcom.Core.Enums
 {
-    public enum PriceEnum
+    public enum GearEnum
     {
-        Ucuzdan_Pahaliya = 0,
-        Pahalidan_Ucuza = 1
+        Tümü,
+        Düz,
+        Yarı_Otomatik,
+        Otomatik 
     }
 }

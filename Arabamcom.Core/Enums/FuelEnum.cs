@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Arabamcom.Core.Enums
 {
-    public enum KmEnum
+    public enum FuelEnum
     {
-        Azdan_Coka = 0 ,
-        Coktan_Aza = 1
+        Tümü,
+         Benzin,
+         Dizel,
+         LPG
+        
     }
 }

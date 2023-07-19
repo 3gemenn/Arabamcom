@@ -19,45 +19,100 @@ namespace Arabamcom.Service.Services
         {
             _context = context;
         }
-        public async Task<AdvertAllDto> All(int categoryId, decimal price, string gear, string fuel, int page, PriceEnum priceShorting, YearEnum yearShorting, KmEnum kmShorting)
+        public async Task<List<AdvertAllDto>> All(int categoryId, decimal priceMin, decimal priceMax, GearEnum gearFiltering, FuelEnum fuelFiltering, AllSorting allSorting)
         {
-            //if (priceShorting == 0)
-            //{
-            //    var query1 = "SELECT  categoryId , price , gear , fuel , page FROM ArabamcomDb ORDER BY price";
-            //}
-            //else
-            //{
-            //    var query2 = "SELECT  categoryId , price , gear , fuel , page FROM ArabamcomDb ORDER BY price DESC ";
-            //}
-            //if (yearShorting == 0) 
-            //{
-            //    var query3 = "SELECT  categoryId , price , gear , fuel , page FROM ArabamcomDb ORDER BY year";
-            //}
-            //else
-            //{
-            //    var query4 = "SELECT  categoryId , price , gear , fuel , page FROM ArabamcomDb ORDER BY year DESC";
-            //}
-            //if( kmShorting == 0)
-            //{
-            //    var query5 = "SELECT  categoryId , price , gear , fuel , page FROM ArabamcomDb ORDER BY km ";
-            //}
-            //else
-            //{
-            //    var query6 = "SELECT  categoryId , price , gear , fuel , page FROM ArabamcomDb ORDER BY km DESC";
-            //}
-
-            //throw new NotImplementedException();
-            var query = "SELECT * FROM Adverts";
-            using (var connection = _context.CreateConnection())
+            try
             {
-                var companies =  connection.QueryAsync<AdvertAllDto>(query).Result.FirstOrDefault();
-                return companies;
+                string query = "";
+
+                query = "SELECT * FROM Adverts$";
+                using (var connection = _context.CreateConnection())
+                {
+                    var companies = connection.QueryAsync<AdvertAllDto>(query).Result;
+                    if (categoryId != 0)
+                    {
+                        companies = companies.Where(x => x.CategoryId == categoryId).ToList();
+                    }
+                    if (priceMin != 0 && priceMax != 0)
+                    {
+                        companies = companies.Where(x => x.Price >= priceMin && x.Price <= priceMax).ToList();
+                    }
+                    else if (priceMin != 0)
+                    {
+                        companies = companies.Where(x => x.Price >= priceMin).ToList();
+                    }
+                    else if (priceMax != 0)
+                    {
+                        companies = companies.Where(x => x.Price <= priceMax).ToList();
+                    }
+                    if (gearFiltering.ToString() != "Tümü")
+                    {
+                        companies = companies.Where(x => x.Gear == gearFiltering.ToString()).ToList();
+                    }
+                    if (fuelFiltering.ToString() != "Tümü")
+                    {
+                        companies = companies.Where(x => x.Gear == fuelFiltering.ToString()).ToList();
+                    }
+                    if (allSorting.ToString() != "Gelişmiş")
+                    {
+                        if (allSorting.ToString() == "Km_Azdan_Coka")
+                        {
+                            companies = companies.OrderBy(x => x.Km);
+                        }
+                        if (allSorting.ToString() == "Km_Coktan_Aza")
+                        {
+                            companies = companies.OrderByDescending(x => x.Km);
+                        }
+                        if (allSorting.ToString() == "Ucuzdan_Pahaliya")
+                        {
+                            companies = companies.OrderBy(x => x.Price);
+                        }
+                        if (allSorting.ToString() == "Pahalidan_Ucuza")
+                        {
+                            companies = companies.OrderByDescending(x => x.Price);
+                        }
+                        if (allSorting.ToString() == "Yeniden_Eskiye")
+                        {
+                            companies = companies.OrderBy(x => x.Year);
+                        }
+                        if (allSorting.ToString() == "Eskiden_Yeniye")
+                        {
+                            companies = companies.OrderByDescending(x => x.Year);
+                        }
+
+                    }
+
+                    return companies.ToList();
+                }
+
+                //throw new NotImplementedException();
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
             }
         }
 
-        public Task<AdvertGetDto> Get(int id)
+
+        public async Task<AdvertGetDto> Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = "SELECT * FROM Adverts WHERE id = '" + id + "'";
+                using (var connection = _context.CreateConnection())
+                {
+                    var companies = connection.QueryAsync<AdvertGetDto>(query).Result.FirstOrDefault();
+                    return companies;
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
         }
     }
 }
