@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Arabamcom.Service.Services
 {
-    public class Service : IService
+    public class AdvertService : IAdvertService
     {
         private readonly ConnectionHelper _context;
-        public Service(ConnectionHelper context)
+        public AdvertService(ConnectionHelper context)
         {
             _context = context;
         }

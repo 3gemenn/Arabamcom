@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Folder Include="UnitOfWorks\" />
-    <Folder Include="Services\" />
     <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
   </ItemGroup>
 
 </Project>

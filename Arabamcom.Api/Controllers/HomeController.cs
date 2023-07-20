@@ -5,14 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace Arabamcom.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class HomeController : Controller
     {
-        private readonly IService _service;
+        private readonly IAdvertService _service;
+        private readonly IAdvertVisitService _visitService;
 
-        public HomeController(IService service)
+        public HomeController(IAdvertService service, IAdvertVisitService visitService)
         {
             _service = service;
+            _visitService = visitService;
         }
         [HttpGet]
         public async Task<IActionResult> All(int categoryId, decimal priceMin, decimal priceMax, GearEnum gearFiltering, FuelEnum fuelFiltering, AllSorting allSorting)
@@ -23,6 +25,11 @@ namespace Arabamcom.Api.Controllers
         public async Task<IActionResult> Get(int id)
         {
             return Json(await _service.Get(id));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Record(int id)
+        {
+            return Json(await _visitService.Record(id));
         }
     }
 }

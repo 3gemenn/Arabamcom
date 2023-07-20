@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Arabamcom.Core.Services
 {
-    public interface IService
+    public interface IAdvertService
     {
         Task<List<AdvertAllDto>> All(int categoryId, decimal priceMin, decimal priceMax, GearEnum gearFiltering, FuelEnum fuelFiltering, AllSorting allSorting);
         Task<AdvertGetDto> Get(int id);
